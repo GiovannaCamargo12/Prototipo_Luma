@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma | Dashboard de Progresso</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .dashboard-container { max-width: 1000px; margin: 0 auto; }
+        .metrics-grid { display: flex; justify-content: space-between; gap: 25px; margin-top: 40px; flex-wrap: wrap; }
+        .metric-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.08); flex: 1; min-width: 250px; text-align: center; }
+        .metric-card h3 { color: #b704a2; margin-top: 0; font-size: 1.1em; text-transform: uppercase; }
+        .metric-card p { font-size: 3em; font-weight: 700; color: #333; margin: 10px 0 0 0; line-height: 1; }
+        .metric-card.correct { border-bottom: 5px solid #28a745; }
+        .metric-card.incorrect { border-bottom: 5px solid #dc3545; }
+        .metric-card.total { border-bottom: 5px solid #007bff; }
+        .module-status { background: #ffffff; padding: 25px; border-radius: 12px; margin-top: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: left; }
+        .progress-bar { background: #e9ecef; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress-bar-fill { height: 20px; background-color: #a400c1; text-align: center; line-height: 20px; color: white; transition: width 0.5s; }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Dashboard de Progresso 📈</h1>
+    </header>
+
+    <div class="content-wrapper">
+        
+        <aside class="sidebar">
+            <div class="user-info">
+                <h4>Bem-vindo(a),</h4>
+                <h2>Giovanna</h2> 
+            </div>
+            
+            <div class="user-menu">
+                <a href="curso.html">📚 <span>Módulos</span></a> 
+                <a href="dashboard.html" style="background: #ddd;">📊 <span>Dashboard</span></a> 
+                <a href="visao_geral.html">📘 <span>Visão Geral</span></a> 
+                <a href="meus_materiais.html">📖 <span>Meus Materiais</span></a> 
+            </div>
+
+            <div class="user-menu">
+                <a href="login.html" style="background: #f8d7da; color: #8b0000;">➡️ <span>Sair (Logout)</span></a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-container">
+                <h2 style="color: #bb01bb; text-align: center;">Seu Desempenho em Inglês</h2>
+                <p style="text-align: center; color: #555;">Acompanhe seu progresso e métricas dos quizzes concluídos.</p>
+
+                <div class="metrics-grid">
+                    <div class="metric-card correct">
+                        <h3>Total de Acertos</h3>
+                        <p id="totalAcertos">0</p>
+                    </div>
+                    <div class="metric-card incorrect">
+                        <h3>Total de Erros</h3>
+                        <p id="totalErros">0</p>
+                    </div>
+                    <div class="metric-card total">
+                        <h3>Total de Perguntas</h3>
+                        <p id="totalPerguntas">0</p>
+                    </div>
+                </div>
+
+                <div class="module-status">
+                    <h3>Progresso Total</h3>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" id="progressBar" style="width: 0%;">0%</div>
+                    </div>
+                    <p style="margin-top: 15px; color: #555;">Módulos Concluídos: <strong id="modulosConcluidos">0/0</strong></p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <footer style="text-align:center; padding:20px; background:#fafafa; border-top:1px solid #ddd;">
+        <p>© 2025 Luma App</p>
+    </footer>
+
+    <script>
+        function carregarMetricas() {
+            // Carrega os dados salvos
+            const totalCorrect = parseInt(localStorage.getItem('totalCorrect')) || 0;
+            const totalIncorrect = parseInt(localStorage.getItem('totalIncorrect')) || 0;
+            const quiz1Completed = localStorage.getItem('quiz1Completed') === 'true';
+            const quiz2Completed = localStorage.getItem('quiz2Completed') === 'true';
+
+            const totalQuestions = totalCorrect + totalIncorrect;
+            const totalModules = 2; 
+            let completedModules = 0;
+
+            if (quiz1Completed) completedModules++;
+            if (quiz2Completed) completedModules++;
+
+            // Calcula o progresso geral
+            const overallProgress = (completedModules / totalModules) * 100;
+
+            // Atualiza o HTML
+            document.getElementById('totalAcertos').innerText = totalCorrect;
+            document.getElementById('totalErros').innerText = totalIncorrect;
+            document.getElementById('totalPerguntas').innerText = totalQuestions;
+            document.getElementById('modulosConcluidos').innerText = `${completedModules}/${totalModules}`;
+            
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${overallProgress.toFixed(0)}%`;
+            progressBar.innerText = `${overallProgress.toFixed(0)}%`;
+
+            // Garante que o texto da barra de progresso fique visível
+            if (overallProgress < 15) {
+                progressBar.style.color = '#333';
+                progressBar.style.textAlign = 'right';
+                progressBar.style.paddingRight = '5px';
+            } else {
+                progressBar.style.color = 'white';
+                progressBar.style.textAlign = 'center';
+                progressBar.style.paddingRight = '0';
+            }
+
+            if (overallProgress > 0) {
+                 progressBar.style.backgroundColor = '#8b0000';
+            } else {
+                 progressBar.style.backgroundColor = '#e9ecef';
+            }
+        }
+
+        // Chama a função ao carregar a página
+        window.onload = carregarMetricas;
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Módulo 2 - Daily Routines</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Estilos específicos para o Quiz */
+        .quiz-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: left;
+            margin-top: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .option {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none; /* Escondido por padrão */
+        }
+        .button-submit {
+            padding: 10px 20px;
+            background: #750287;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .button-submit:hover {
+            background: #bd02b7;
+        }
+    </style>
+</head>
+<body>
+    <header style="text-align:center; padding:20px; background:#720887; color:white;">
+        <h1>Quiz Módulo 2: Daily Routines</h1>
+        <nav>
+            <a href="curso.html" style="color:white; margin:0 10px;">Voltar aos Módulos</a>
+            <a href="login.html" style="color:white; margin:0 10px;">Sair</a>
+        </nav>
+    </header>
+
+    <main style="max-width:800px; margin:40px auto; padding:0 20px; text-align:center;">
+        <h2>Teste Seus Conhecimentos!</h2>
+        <p>Aprenda a falar sobre sua rotina diária em inglês.</p>
+
+        <form id="quizForm" class="quiz-container">
+            
+            <div class="question">
+                <p>1. Qual frase descreve a ação de "acordar" pela manhã?</p>
+                <label class="option">
+                    <input type="radio" name="q1" value="a"> I have dinner.
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="b"> I wake up.
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="c"> I go to bed.
+                </label>
+            </div>
+
+            <div class="question">
+                <p>2. Complete a frase: "I usually ___ my teeth after breakfast."</p>
+                <label class="option">
+                    <input type="radio" name="q2" value="a"> eat
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="b"> brush
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="c"> sleep
+                </label>
+            </div>
+
+            <button type="submit" class="button-submit">Finalizar Quiz</button>
+        </form>
+
+        <div id="results" class="results"></div>
+        
+        <p style="text-align:center; margin-top: 40px;">
+            <a href="curso.html" style="color:#93019b; font-weight:bold; text-decoration:none;">Voltar para Módulos</a>
+        </p>
+    </main>
+    
+    <footer style="text-align:center; padding:20px; background:#fafafa; border-top:1px solid #ddd;">
+        <p>© 2025 Luma App</p>
+    </footer>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const answers = {
+                q1: 'b', // Resposta correta: I wake up
+                q2: 'b'  // Resposta correta: brush
+            };
+
+            let score = 0;
+            const totalQuestions = Object.keys(answers).length;
+            const form = e.target;
+            const resultsDiv = document.getElementById('results');
+            
+            // Lógica de contagem
+            const answer1 = form.elements['q1'].value;
+            if (answer1 === answers.q1) {
+                score++;
+            }
+
+            const answer2 = form.elements['q2'].value;
+            if (answer2 === answers.q2) {
+                score++;
+            }
+
+            const incorrectScore = totalQuestions - score;
+            const percentage = (score / totalQuestions) * 100;
+
+            // 🎯 SALVAR PONTUAÇÃO NO LOCALSTORAGE
+            // Primeiro, pegamos a pontuação atual (se existir)
+            let totalCorrect = parseInt(localStorage.getItem('totalCorrect')) || 0;
+            let totalIncorrect = parseInt(localStorage.getItem('totalIncorrect')) || 0;
+            
+            // Adicionamos a pontuação deste quiz
+            totalCorrect += score;
+            totalIncorrect += incorrectScore;
+
+            // Salvamos os novos totais
+            localStorage.setItem('totalCorrect', totalCorrect);
+            localStorage.setItem('totalIncorrect', totalIncorrect);
+            
+            // Marcamos este quiz como concluído
+            localStorage.setItem('quiz2Completed', 'true');
+            // FIM DO BLOCO DE SALVAMENTO
+
+            // Exibe os resultados
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `Você acertou ${score} de ${totalQuestions} perguntas. (${percentage.toFixed(0)}%)`;
+            
+            if (score === totalQuestions) {
+                resultsDiv.style.backgroundColor = '#d4edda'; // Verde
+                resultsDiv.style.color = '#155724';
+                resultsDiv.innerHTML += '<br>Parabéns! Você completou o módulo com sucesso!';
+            } else {
+                resultsDiv.style.backgroundColor = '#f8d7da'; // Vermelho/Rosa
+                resultsDiv.style.color = '#721c24';
+                resultsDiv.innerHTML += '<br>Tente novamente para dominar o conteúdo.';
+            }
+        });
+    </script>
+</body>
+</html>

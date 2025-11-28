@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Luma App</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        /* Estilos específicos para a tela de login (Mantenha aqui ou mova para style.css) */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 95%;
+            padding: 10px;
+            background: #bf0797; /* Cor da sua marca */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #e32dc7;
+        }
+        a {
+            color: #d95bc6;
+            text-decoration: none;
+        }
+        #loginMsg {
+            color: rgb(225, 23, 236);
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="loginSection">
+        <h2>Entrar no Luma</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="loginMsg"></p>
+        <p>Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+    </section>
+
+    <section id="registerSection" style="display:none;">
+        <h2>Cadastro Luma</h2>
+        <form id="registerForm">
+            <input type="text" id="registerName" placeholder="Nome" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem conta? <a href="#" id="showLogin">Entrar</a></p>
+    </section>
+
+    <script>
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+
+        document.getElementById('showRegister').addEventListener('click', e => {
+            e.preventDefault();
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', e => {
+            e.preventDefault();
+            registerSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const msg = document.getElementById('loginMsg');
+
+            // 🔑 Simulação de login: Email: bruninho@fatec.com | Senha: 123456
+            if(email === "bruninho@fatec.com" && password === "123456"){
+                msg.style.display = 'none';
+                // 🚀 REDIRECIONAMENTO para a Home/Index após login
+                window.location.href = "index.html"; 
+            } else {
+                msg.textContent = 'Email ou senha incorretos!';
+                msg.style.display = 'block';
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            alert("Cadastro Luma realizado com sucesso! Agora faça login.");
+            registerSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>

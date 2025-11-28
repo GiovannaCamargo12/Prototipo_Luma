@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma - Dashboard de Progresso</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ESTILOS GERAIS */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            /* FORÇA O FUNDO VERDE CLARO (Solução para o fundo branco) */
+            background-color: #e9f5e9 !important; 
+        }
+        header { 
+            text-align: center; 
+            padding: 20px; 
+            background: #760393; 
+            color: white; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        
+        /* ESTRUTURA FLEXBOX */
+        .content-wrapper { 
+            display: flex; 
+            min-height: calc(100vh - 80px); 
+            width: 100%; 
+        }
+        
+        /* BARRA LATERAL (SIDEBAR) */
+        .sidebar {
+            width: 250px; 
+            min-width: 250px; 
+            background-color: #ffffff; /* Fundo branco */
+            border-right: 1px solid #ddd;
+            padding: 20px; 
+            text-align: center; 
+            box-sizing: border-box; 
+        }
+        .user-info { 
+            padding: 15px 0; 
+            margin-bottom: 20px; 
+            border-bottom: 2px solid #c31da7; 
+        }
+        .user-info h4 { 
+            margin: 5px 0 5px 0; 
+            color: #555; 
+        }
+        .user-info h2 {
+            font-size: 1.5em; 
+            color: #333;
+        }
+        .user-menu { margin-bottom: 30px; }
+        .user-menu a {
+            display: flex; 
+            align-items: center; 
+            padding: 12px; 
+            margin-bottom: 8px; 
+            background: #f7f7f7; 
+            color: #333; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+        .user-menu a span { margin-left: 10px; }
+        .user-menu a:hover { background: #e0e0e0; }
+        
+        /* CONTEÚDO PRINCIPAL DO DASHBOARD */
+        .main-content {
+            flex-grow: 1; 
+            padding: 40px;
+            text-align: center; 
+        }
+
+        .dashboard-container {
+            max-width: 1000px; 
+            margin: 0 auto;
+        }
+        
+        /* TÍTULOS */
+        .dashboard-container h2 {
+            color: #881a7d; 
+            margin-bottom: 5px;
+            font-size: 2em;
+        }
+        .dashboard-container p {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* CARDS DE PONTUAÇÃO */
+        .metrics-grid {
+            display: flex; /* ESSENCIAL PARA EXIBIR OS CARDS */
+            justify-content: space-between; 
+            gap: 25px;
+            margin-top: 40px;
+            flex-wrap: wrap; 
+        }
+        
+        .metric-card {
+            background: #fff; 
+            padding: 25px;
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08); 
+            flex: 1; 
+            min-width: 250px; 
+            transition: transform 0.2s;
+            text-align: center;
+        }
+
+        .metric-card h3 {
+            color: #d228a8;
+            margin-top: 0;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        .metric-card p {
+            font-size: 3em; 
+            font-weight: 700;
+            color: #333;
+            margin: 10px 0 0 0;
+            line-height: 1;
+        }
+        
+        /* ÁREA DE STATUS POR MÓDULO */
+        .module-status {
+            background: #ffffff; 
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        .module-status p {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 10px 0;
+            padding-left: 10px;
+            border-left: 3px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Dashboard de Progresso 📈</h1>
+    </header>
+
+    <div class="content-wrapper">
+        
+        <aside class="sidebar">
+            <div class="user-info">
+                <h4>Bem-vindo(a),</h4>
+                <h2>Giovanna Pessoa</h2> 
+            </div>
+            
+            <div class="user-menu">
+                <a href="curso.html">📚 <span>Módulos</span></a> 
+                <a href="dashboard.html" style="background: #ddd;">📊 <span>Dashboard</span></a> 
+                <a href="#">📘 <span>Visão Geral</span></a> 
+                <a href="#">📖 <span>Meus Materiais</span></a>
+            </div>
+
+            <div class="user-menu">
+                <a href="login.html" style="background: #f8d7da; color: #a3039e;">➡️ <span>Sair (Logout)</span></a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-container">
+                <h2>Seu Desempenho em Inglês</h2>
+                <p>Acompanhe seu progresso e as métricas dos quizzes concluídos.</p>
+
+                <div class="metrics-grid">
+                    <div class="metric-card" style="border-bottom: 5px solid green;">
+                        <h3>Total de Acertos</h3>
+                        <p id="totalCorrect">0</p>
+                    </div>
+
+                    <div class="metric-card" style="border-bottom: 5px solid red;">
+                        <h3>Total de Erros</h3>
+                        <p id="totalIncorrect">0</p>
+                    </div>
+
+                    <div class="metric-card" style="border-bottom: 5px solid #007bff;">
+                        <h3>Módulos Concluídos</h3>
+                        <p id="modulesCompleted">0/2</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 50px; color: #81068c;">Progresso por Módulo</h3>
+                <p>Detalhes sobre os quizzes que você já realizou.</p>
+
+                <div class="module-status">
+                    <p id="statusQuiz1">Módulo 1: Greetings and Introductions (Pendente)</p>
+                    <p id="statusQuiz2">Módulo 2: Daily Routines (Pendente)</p>
+                </div>
+
+                <p style="margin-top: 40px;"><a href="curso.html" style="color: #940432; font-weight: bold; text-decoration: none;">Voltar para os Módulos</a></p>
+            </div>
+        </main>
+    </div>
+    
+    <footer style="text-align:center; padding:20px; background:#fafafa; border-top:1px solid #ddd;">
+        <p>© 2025 Luma App</p>
+    </footer>
+
+    <script>
+        function loadDashboardData() {
+            // 1. Puxar Pontuações do localStorage
+            const correct = parseInt(localStorage.getItem('totalCorrect')) || 0;
+            const incorrect = parseInt(localStorage.getItem('totalIncorrect')) || 0;
+            
+            // 2. Puxar Status de Conclusão dos Quizzes
+            const quiz1Completed = localStorage.getItem('quiz1Completed') === 'true';
+            const quiz2Completed = localStorage.getItem('quiz2Completed') === 'true'; 
+
+            let completedCount = 0;
+            if (quiz1Completed) completedCount++;
+            if (quiz2Completed) completedCount++;
+
+            // 3. Atualizar a Interface do Usuário (Totais)
+            document.getElementById('totalCorrect').textContent = correct;
+            document.getElementById('totalIncorrect').textContent = incorrect;
+            document.getElementById('modulesCompleted').textContent = `${completedCount}/2`; 
+
+            // 4. Atualizar o Status Detalhado
+            const statusQuiz1 = document.getElementById('statusQuiz1');
+            if (quiz1Completed) {
+                statusQuiz1.textContent = 'Módulo 1: Greetings and Introductions (Concluído 🎉)';
+                statusQuiz1.style.color = 'green';
+                statusQuiz1.style.borderLeftColor = 'green';
+            } else {
+                statusQuiz1.textContent = 'Módulo 1: Greetings and Introductions (Pendente)';
+                statusQuiz1.style.color = '#555';
+            }
+            
+            const statusQuiz2 = document.getElementById('statusQuiz2');
+            if (quiz2Completed) {
+                statusQuiz2.textContent = 'Módulo 2: Daily Routines (Concluído 🎉)';
+                statusQuiz2.style.color = 'green';
+                statusQuiz2.style.borderLeftColor = 'green';
+            } else {
+                statusQuiz2.textContent = 'Módulo 2: Daily Routines (Pendente)';
+                statusQuiz2.style.color = '#555';
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+    </script>
+</body>
+</html>
