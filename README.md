@@ -2,7 +2,7 @@
 uma — Interface Web Simples e Funcional
 
 O Luma é um projeto desenvolvido utilizando apenas HTML, CSS e JavaScript, criado com o objetivo de oferecer uma interface leve, organizada e fácil de usar.
-O projeto foi pensado para demonstrar boas práticas de front-end, com foco em responsividade, organização e interatividade no navegador.
+O projeto foi pensado para demonstrar boas práticas de front-end, com foco em responsividade, organização e interatividade no navegador. Projeto feito no 5 semestre 
 
 📌 Funcionalidades
 
